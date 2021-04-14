@@ -7,10 +7,10 @@
 <meta name="viewport"	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Weather Air Time">
 <meta property="og:title" content="wat.1028web.com">
-<!-- <meta property="og:image" content="./images/logo_300_og_image.jpg"> -->
+<meta property="og:image" content="./images/logo_300_wat_og_image.jpg">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="css/style.css">
-<!-- <link rel="shortcut icon" href="./images/favicon/favicon.ico" type="image/x-icon"> -->
+<link rel="shortcut icon" href="./images/favicon/favicon.ico" type="image/x-icon">
 <style type="text/css">
 </style>
 <script type="text/javascript">
@@ -75,10 +75,10 @@
 				var temp_max = kToc(result.main.temp_max);
 				var text = city + "   " + result.weather[0].main + "   " + temp
 						+ "°C";
-				document.getElementById("air").innerText = text;
+				document.getElementById("weather").innerText = text;
 			});
 		} catch (e) {
-			document.getElementById("air").innerText = "";
+			document.getElementById("weather").innerText = "";
 			setTimeout(function() {
 				initWeather();
 			}, 1000 * 60);
@@ -110,8 +110,9 @@
 <body>
 	<header></header>
 	<section>
-		<article>
-			<div id="air" class="bc-v1"></div>
+		<article id="weatherAir" class="bc-v1">
+			<a href="https://1028web.com/" class="logo"><img src="./images/favicon/192x192.png"></a>
+			<div id="weather" > </div>
 		</article>
 		<article>
 			<div id="date" class=""></div>

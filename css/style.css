@@ -7,15 +7,28 @@ html, body {
 }
 
 
-#air {
+#weatherAir {
 	position: relative;
-	height: auto;
+	height: 75px;
 	padding-top: 5px;
 	line-height: 70px;
 	overflow: hidden;
 	z-index: 2;
 	font-size: 5vmin;
 	text-align: center;
+}
+
+#weatherAir .logo img{
+	text-align: center;
+ 	padding-top: 7px;
+    padding-left: 7px;
+  	float: left;
+  	width: 60px;
+  	box-sizing: border-box;
+}
+
+#weather{
+	float: unset;
 }
 
 #date {
