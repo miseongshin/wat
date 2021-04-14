@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather Air Time</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Weather Air Time">
+<meta property="og:title" content="wat.1028web.com">
+<!-- <meta property="og:image" content="./images/logo_300_og_image.jpg"> -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/style.css">
+<!-- <link rel="shortcut icon" href="./images/favicon/favicon.ico" type="image/x-icon"> -->
+<style type="text/css">
+</style>
+<script type="text/javascript">
+	function initTime() {
+		var now = new Date();
+
+		var week = [ 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT' ];
+		var month = new String(now.getMonth() + 1);
+		month = month.length == 2 ? month : "0" + month;
+		var day = new String(now.getDate());
+		day = day.length == 2 ? day : "0" + day;
+		var dayOfWeek = week[now.getDay()];
+		var date = (month) + " / " + day + " (" + dayOfWeek + ")";
+
+		var hours = new String(now.getHours());
+		hours = hours.length == 2 ? hours : "0" + hours;
+		var minutes = new String(now.getMinutes());
+		minutes = minutes.length == 2 ? minutes : "0" + hours;
+		var time = hours + " : " + minutes;
+		var seconds = new String(now.getSeconds());
+		seconds = seconds.length ==2 ? seconds : "0"+seconds;
+
+		document.getElementById("date").innerText = date;
+		document.getElementById("time").innerText = time;
+		document.getElementById("sec").innerText = seconds;
+
+		if (parseInt(hours) > 22 || parseInt(hours) < 4) {
+			// background-color: black;
+			//color: lightgray; 
+			document.body.style.backgroundColor = "black";
+			document.body.style.color = "lightgray";
+		} else {
+			document.body.style.backgroundColor = "white";
+			document.body.style.color = "black";
+		}
+
+		setTimeout(function() {
+			initTime();
+		}, 1000);
+	}
+
+	function initWeather() {
+
+		//usage:
+		try {
+			loadDoc("./city.list.json", function(text) {
+				var data = JSON.parse(text);
+				console.log(data);
+			});
+		} catch (e) {
+
+		}
+
+		try {
+			var url = "https://api.openweathermap.org/data/2.5/weather?id=1835848&appid=44cbc16a0d2be34a7c719d69431648fa";
+			var $weatherResult = document.getElementById("hiddenData");
+			loadDoc(url, function(data) {
+				var result = JSON.parse(data);
+				var city = result.name;
+				var temp = kToc(result.main.temp);
+				var temp_min = kToc(result.main.temp_min);
+				var temp_max = kToc(result.main.temp_max);
+				var text = city + "   " + result.weather[0].main + "   " + temp
+						+ "°C";
+				document.getElementById("air").innerText = text;
+			});
+		} catch (e) {
+			document.getElementById("air").innerText = "";
+			setTimeout(function() {
+				initWeather();
+			}, 1000 * 60);
+		}
+
+		setTimeout(function() {
+			initWeather();
+		}, 1000 * 60 * 60 * 3);
+	}
+
+	function loadDoc(url, callback) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					callback(this.responseText);
+				}
+			};
+
+			xhttp.open("GET", url, true);
+			xhttp.send();
+	}
+
+	function kToc(k) {
+		c = k - 273.15;
+		return c.toFixed(1);
+	}
+</script>
+</head>
+<body>
+	<header></header>
+	<section>
+		<article>
+			<div id="air" class="bc-v1"></div>
+		</article>
+		<article>
+			<div id="date" class=""></div>
+			<div id="time" class=""></div>
+			<div id="sec" class=""></div>
+		</article>
+	</section>
+	<section></section>
+	<footer></footer>
+	<script type="text/javascript">
+		window.onload = function() {
+			initTime();
+			initWeather();
+		}
+	</script>
+	<div id="hiddenData" hidden="hidden"></div>
+</body>
+</html>
