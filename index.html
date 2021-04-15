@@ -111,10 +111,12 @@
 			document.getElementById("weather2").style.fontSize ="1em"; 
 			document.getElementById("weather").style.fontSize ="1em"; 
 			document.getElementById("date").style.fontSize ="1em"; 
+			document.getElementById("locate").style.fontSize ="1em"; 
 		}else{
 			document.getElementById("weather2").style.fontSize ="1em"; 
 			document.getElementById("weather").style.fontSize ="2em"; 
-			document.getElementById("date").style.fontSize ="2em"; 
+			document.getElementById("date").style.fontSize ="2em";
+			document.getElementById("locate").style.fontSize ="1em";  
 		}
 	}
 
@@ -165,22 +167,22 @@
     				navigator.geolocation.getCurrentPosition(function(position){
   						lat = position.coords.latitude;
    				 		lon = position.coords.longitude;
-    					console.log('Your latitude is :'+lat+' and longitude is '+lon);
+    					console.log('Your latitude is :'+lat.toFixed(3)+' and longitude is '+lon.toFixed(3));
     					localStorage.removeItem("1028lat")
     					localStorage.removeItem("1028lon")
-    					localStorage.setItem("1028lat", lat);
-    					localStorage.setItem("1028lon", lon);
+    					localStorage.setItem("1028lat", lat.toFixed(3));
+    					localStorage.setItem("1028lon", lon.toFixed(3));
 
     					//setCookie("1028lat", lat, 100);
     					//setCookie("1028lon", lon, 100); 
     					getWeatherApi(lat, lon);
     				}, function(){
-    					getWeatherApi("37.4818384", "126.9296185");
+    					getWeatherApi("37.481", "126.929");
     				});
 				}
 
 			} else {
-				getWeatherApi("37.4818384", "126.9296185");
+				getWeatherApi("37.481", "126.929");
 			}
 		} catch (e) {
 			//document.getElementById("weather").innerText = "";
@@ -207,8 +209,9 @@
 				console.log(result);
 				console.log(new Date(result.daily[0].dt*1000));
 
-				document.getElementById("weather2").innerText = result.timezone;
-				document.getElementById("weather").innerText = result.daily[0].weather[0].main+"("+result.daily[1].weather[0].main+")";
+				document.getElementById("weather2").innerText = "tmr:"+result.daily[1].weather[0].main;
+				document.getElementById("weather").innerText = result.daily[0].weather[0].main;
+				document.getElementById("locate").innerText = result.timezone.split("/")[1];
 
 			});
 
@@ -262,6 +265,7 @@
 			<div id="date" class="wat-e"></div>
 			<div id="weather" class="wat-e"> </div>
 			<div id="weather2" class="wat-e"> </div>
+			<div id="locate" class="wat-e"> </div>
 		</article>
 		<article>
 			<div id="time" class="time-e"></div>
