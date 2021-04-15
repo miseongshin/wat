@@ -18,18 +18,52 @@ html, body {
 
 }
 
-#container:fullscreen {
-    width: 100%;
-    height: 100%;
+
+#wat.day {
+  background-color: white;
+  color: black;
+}
+/* Safari */
+#wat.day:-webkit-full-screen {
+  background-color: white;
+  color: black;
 }
 
- 
-
-#container:-webkit-full-screen {
-
-    width: 100%;
-    height: 100%;
+/* IE11 */
+#wat.day:-ms-fullscreen {
+  background-color: white;
+  color: black;
 }
+
+/* Standard syntax */
+#wat.day:fullscreen {
+  background-color: white;
+  color: black;
+}
+
+
+#wat.night {
+  background-color: black;
+  color: lightgrey;
+}
+/* Safari */
+#wat.night:-webkit-full-screen {
+  background-color: black;
+  color: lightgrey;
+}
+
+/* IE11 */
+#wat.night:-ms-fullscreen {
+  background-color: black;
+  color: lightgrey;
+}
+
+/* Standard syntax */
+#wat.night:fullscreen {
+  background-color: black;
+  color: lightgrey;
+}
+
 
 #weatherAir {
 	position: relative;
@@ -50,27 +84,34 @@ html, body {
   	box-sizing: border-box;
 }
 
-#weather{
+.wat-e{
 	float: unset;
+	width: inherit;
 }
 
-#date {
+/*#date {
 	position: relative;
 	height: auto;
 	overflow: hidden;
 	z-index: 2;
 	font-size: 2.5em;
 	padding-left: 50px;
-}
+}*/
 
-#time {
+.time-e {
 	position: relative;
 	height: auto;
 	overflow: hidden;
-	z-inde	x: 2;
-	font-size: 11em;
-	text-align: center;
-	line-height: 180px;
+	z-index: 2;
+	/*line-height: 180px;*/
+	width: fit-content;
+	display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    display:inline-block;
+}
+#time{
+		font-size: 11em;
 }
 
 #sec {
@@ -82,6 +123,15 @@ html, body {
 	text-align: right;
 }
 
+section{
+	width: 100%;
+    height: 100%;
+}
+article{
+	display: table;
+    width: 100%;
+    height: 100%;
+}
 
 .hidden{
 	visibility: hidden;

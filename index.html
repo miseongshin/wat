@@ -16,11 +16,32 @@
 <script type="text/javascript">
 	function init(){
 
-		initTime();
-		initWeather();
+		var $wat = document.getElementById("wat");
+		document.querySelector("#wat").addEventListener('click', function() {
+
+			if ( !document.fullscreenElement) {//가로
+				if ($wat.requestFullscreen) {
+					$wat.requestFullscreen();
+ 				} else if ($wat.webkitRequestFullscreen) { /* Safari */
+    				$wat.webkitRequestFullscreen();
+  				} else if ($wat.msRequestFullscreen) { /* IE11 */
+    				$wat.msRequestFullscreen();
+  				}
+			} else {
+
+				if (document.exitFullscreen) {
+      				document.exitFullscreen();
+    		}
+			}
+		});
+
+		setTime();
+		setTimeSize();
+		//initWeather();
+
 
 	}
-	function initTime() {
+	function setTime() {
 		var now = new Date();
 
 		var week = [ 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT' ];
@@ -41,21 +62,43 @@
 
 		document.getElementById("date").innerText = date;
 		document.getElementById("time").innerText = time;
-		document.getElementById("sec").innerText = seconds;
+		if(document.getElementById("sec") !=null )
+			document.getElementById("sec").innerText = " : "+seconds;
 
 		if (parseInt(hours) > 22 || parseInt(hours) < 4) {
-			// background-color: black;
-			//color: lightgray; 
-			document.body.style.backgroundColor = "black";
-			document.body.style.color = "lightgray";
+			
+			document.getElementById("wat").classList.remove("day");
+			document.getElementById("wat").classList.add("night");
 		} else {
-			document.body.style.backgroundColor = "white";
-			document.body.style.color = "black";
+
+			document.getElementById("wat").classList.remove("night");
+			document.getElementById("wat").classList.add("day");
 		}
 
 		setTimeout(function() {
-			initTime();
+			setTime();
 		}, 1000);
+	}
+
+	function setTimeSize(){
+
+		var isInSize = true;
+		var fontSize = 1;
+		var maxWidth = document.body.clientWidth;
+		var maxHight = document.body.clientHeight -document.getElementById("weatherAir").clientHeight;
+		var nowW;
+		var nowH;
+
+		while(isInSize){
+
+			document.getElementById("time").style.fontSize = (fontSize++) +"em"; 
+			nowW = document.getElementById("time").clientWidth;
+			nowH = document.getElementById("time").clientHeight;
+			isInSize = (nowW < maxWidth) && (nowH < maxHight);
+
+		}
+
+		document.getElementById("time").style.fontSize = (fontSize-3) +"em"; 
 	}
 
 	function initWeather() {
@@ -118,12 +161,12 @@
 	<section id="wat">
 		<article id="weatherAir" class="bc-v1">
 			<a href="https://1028web.com/" class="logo"><img src="./images/favicon/192x192.png"></a>
-			<div id="weather" > </div>
+			<div id="date" class="wat-e"></div>
+			<div id="weather" class="wat-e"> </div>
 		</article>
 		<article>
-			<div id="date" class=""></div>
-			<div id="time" class=""></div>
-			<div id="sec" class="hidden"></div>
+			<div id="time" class="time-e"></div>
+			<!-- <div id="sec" class="time-e"></div> -->
 		</article>
 	</section>
 	<section></section>
