@@ -8,12 +8,18 @@
 <meta name="description" content="Weather Air Time">
 <meta property="og:title" content="wat.1028web.com">
 <meta property="og:image" content="./images/logo_300_wat_og_image.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="shortcut icon" href="./images/favicon/favicon.ico" type="image/x-icon">
-<style type="text/css">
-</style>
 <script type="text/javascript">
+	function init(){
+
+		initTime();
+		initWeather();
+
+	}
 	function initTime() {
 		var now = new Date();
 
@@ -109,7 +115,7 @@
 </head>
 <body>
 	<header></header>
-	<section>
+	<section id="wat">
 		<article id="weatherAir" class="bc-v1">
 			<a href="https://1028web.com/" class="logo"><img src="./images/favicon/192x192.png"></a>
 			<div id="weather" > </div>
@@ -117,15 +123,14 @@
 		<article>
 			<div id="date" class=""></div>
 			<div id="time" class=""></div>
-			<div id="sec" class=""></div>
+			<div id="sec" class="hidden"></div>
 		</article>
 	</section>
 	<section></section>
 	<footer></footer>
 	<script type="text/javascript">
 		window.onload = function() {
-			initTime();
-			initWeather();
+			init();
 		}
 	</script>
 	<div id="hiddenData" hidden="hidden"></div>
