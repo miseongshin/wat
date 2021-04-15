@@ -71,7 +71,6 @@ html, body {
 	line-height: 55px;
 	overflow: hidden;
 	z-index: 2;
-	font-size: 2em;
 	text-align: center;
 }
 
@@ -86,7 +85,14 @@ html, body {
 
 .wat-e{
 	float: unset;
-	width: inherit;
+	display: table-cell
+}
+
+#weather, #date{
+	font-size: 2em;
+}
+weather2{
+	font-size: 1em;
 }
 
 /*#date {

@@ -41,7 +41,7 @@
 		
 		setTime();
 		setTimeSize();
-		//initWeather();
+		setWeather();
 
 
 	}
@@ -105,41 +105,75 @@
 		document.getElementById("time").style.fontSize = (fontSize-2) +"em"; 
 	}
 
-	function initWeather() {
+	function setWeather() {
 
-		//usage:
+
 		try {
-			loadDoc("./city.list.json", function(text) {
+
+
+			/*loadDoc("./city.list.json", function(text) {
 				var data = JSON.parse(text);
 				console.log(data);
-			});
-		} catch (e) {
+			});*/
+			//https://www.data.go.kr/data/15073885/openapi.do
+			//https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043562
+			//var key = 'NlxvoEuT8%2F4pyJ8GnWYlv4%2Fa%2FWpqz5qkyJKjD5VlyG9itoUcYH6Ofx2tsYPmDM%2B%2Fc5dDv%2F6eKWWDUPmB5w0aqg%3D%3D'; /*Service Key*/
+			//var url = 'http://apis.data.go.kr/1360000/WthrChartInfoService/getSurfaceChart'; /*URL*/
+			//var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+key; /*Service Key*/
+			//queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+			//queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+			//queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('XML'); /**/
+			//queryParams += '&' + encodeURIComponent('code') + '=' + encodeURIComponent('24'); /**/
+			//queryParams += '&' + encodeURIComponent('time') + '=' + encodeURIComponent('20151013'); /**/
+			//console.log(url+queryParams);
 
-		}
 
-		try {
-			var url = "https://api.openweathermap.org/data/2.5/weather?id=1835848&appid=44cbc16a0d2be34a7c719d69431648fa";
-			var $weatherResult = document.getElementById("hiddenData");
-			loadDoc(url, function(data) {
-				var result = JSON.parse(data);
-				var city = result.name;
-				var temp = kToc(result.main.temp);
-				var temp_min = kToc(result.main.temp_min);
-				var temp_max = kToc(result.main.temp_max);
-				var text = city + "   " + result.weather[0].main + "   " + temp
-						+ "°C";
-				document.getElementById("weather").innerText = text;
-			});
+			////https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+			//https://openweathermap.org/api/one-call-api#how
+
+
+			if (confirm("위치정보를 openweathermap에 제공하여 날씨를 조회합니다. 위치정보 제공에 동의 하시겠습니까? 동의 안하면 서울주소 조회 ") && navigator.geolocation) {
+    			navigator.geolocation.getCurrentPosition(function(position){
+  					lat = position.coords.latitude;
+   				 	lon = position.coords.longitude;
+    				console.log('Your latitude is :'+lat+' and longitude is '+lon);
+    				getWeatherApi(lat, lon);
+    			}, function(){
+    				getWeatherApi("37.4818384", "126.9296185");
+    			});
+			} else {
+				getWeatherApi("37.4818384", "126.9296185");
+			}
 		} catch (e) {
-			document.getElementById("weather").innerText = "";
+			//document.getElementById("weather").innerText = "";
 			setTimeout(function() {
 				initWeather();
 			}, 1000 * 60);
 		}
 
 		setTimeout(function() {
-			initWeather();
+			setWeather();
 		}, 1000 * 60 * 60 * 3);
+	}
+
+	function getWeatherApi(lat,lon){
+			var key ="44cbc16a0d2be34a7c719d69431648fa";
+			var userLang = navigator.language || navigator.userLanguage;
+			if(userLang == null ) userLang = "en-US";
+			var url = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&appid="+key+"&lang="+userLang;
+			console.log(url);
+
+			var $weatherResult = document.getElementById("hiddenData");
+			loadDoc(url, function(data) {
+				var result = JSON.parse(data);
+				console.log(result);
+				console.log(new Date(result.daily[0].dt*1000));
+
+				document.getElementById("weather2").innerText = result.timezone;
+				document.getElementById("weather").innerText = result.daily[0].weather[0].main+"("+result.daily[1].weather[0].main+")";
+
+			});
+
 	}
 
 	function loadDoc(url, callback) {
@@ -167,6 +201,7 @@
 			<a href="https://1028web.com/" class="logo"><img src="./images/favicon/192x192.png"></a>
 			<div id="date" class="wat-e"></div>
 			<div id="weather" class="wat-e"> </div>
+			<div id="weather2" class="wat-e"> </div>
 		</article>
 		<article>
 			<div id="time" class="time-e"></div>
