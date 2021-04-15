@@ -35,6 +35,10 @@
 			}
 		});
 
+		window.addEventListener('resize', function() {
+  			setTimeSize();
+		}, true);
+		
 		setTime();
 		setTimeSize();
 		//initWeather();
