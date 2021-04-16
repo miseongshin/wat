@@ -17,9 +17,7 @@ WAT   :    Weather + Air condition + Time
 
 ##### 사용언어 : javascript(풀스크린, 위도경도, 로컬스토리지)
 
-##### 제작기간 : 3일 
-
-##### period:3 Day
+##### period:3 Day (2021/04/13~15)
 
 ##### 아마 다음에는.. 위도경도 계산기를...
 
