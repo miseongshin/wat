@@ -35,6 +35,14 @@
 			}
 		});
 
+		document.querySelector("#locate").addEventListener('click', function(e) {
+			e.stopPropagation();
+
+			localStorage.removeItem("1028lat");
+    		localStorage.removeItem("1028lon");
+    		setWeather();
+		});
+
 		window.addEventListener('resize', function() {
   			setTimeSize();
 		}, true);
@@ -43,6 +51,9 @@
 		setTimeSize();
 		setWeather();
 
+		setTimeout(function(){
+			history.go(0);
+		},1000*60*60*24);
 
 	}
 	function setTime() {
@@ -168,8 +179,8 @@
   						lat = position.coords.latitude;
    				 		lon = position.coords.longitude;
     					console.log('Your latitude is :'+lat.toFixed(3)+' and longitude is '+lon.toFixed(3));
-    					localStorage.removeItem("1028lat")
-    					localStorage.removeItem("1028lon")
+    					localStorage.removeItem("1028lat");
+    					localStorage.removeItem("1028lon");
     					localStorage.setItem("1028lat", lat.toFixed(3));
     					localStorage.setItem("1028lon", lon.toFixed(3));
 
@@ -187,13 +198,13 @@
 		} catch (e) {
 			//document.getElementById("weather").innerText = "";
 			setTimeout(function() {
-				initWeather();
-			}, 1000 * 60);
+				setWeather();
+			}, (1000 * 60));
 		}
 
 		setTimeout(function() {
 			setWeather();
-		}, 1000 * 60 * 60 * 3);
+		}, (1000 * 60 * 60 * 3));
 	}
 
 	function getWeatherApi(lat,lon){
