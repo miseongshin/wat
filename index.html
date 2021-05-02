@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <title>10:28 Table Clock</title>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" lang="en" content="Full screen Clock when clicking on the screen">
-<meta name="description" lang="ko" content="화면 클릭시 전체화면 시계">
+<meta name="description" lang="ko-KR" content="화면 클릭시 전체화면 시계">
 <meta property="og:title" lang="en" content="10:28 Table Clock">
-<meta property="og:title" lang="ko" content="10:28 탁상시계">
+<meta property="og:title" lang="ko-KR" content="10:28 탁상시계">
 <meta property="og:image" content="./images/logo_300_wat_og_image.jpg">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -16,25 +16,27 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="shortcut icon" href="./images/favicon/favicon.ico" type="image/x-icon">
 <script type="text/javascript">
-	function init(){
 
-		var $wat = document.getElementById("wat");
+
+	function initData(){
+		
+		setTime();
+		setWeather();
+		
+		setTimeout(function() {
+			setTimeSize();
+		}, (500));
+
+		setTimeout(function() {
+			initData();
+		}, (1000 * 60 * 60 * 3));
+
+	}
+
+	function init(){
 		document.querySelector("#wat").addEventListener('click', function() {
 
-			if ( !document.fullscreenElement) {//가로
-				if ($wat.requestFullscreen) {
-					$wat.requestFullscreen();
- 				} else if ($wat.webkitRequestFullscreen) { /* Safari */
-    				$wat.webkitRequestFullscreen();
-  				} else if ($wat.msRequestFullscreen) { /* IE11 */
-    				$wat.msRequestFullscreen();
-  				}
-			} else {
-
-				if (document.exitFullscreen) {
-      				document.exitFullscreen();
-    		}
-			}
+			setFullScreen();
 		});
 
 		document.querySelector("#locate").addEventListener('click', function(e) {
@@ -48,17 +50,28 @@
 		window.addEventListener('resize', function() {
   			setTimeSize();
 		}, true);
-		
-		setTime();
-		setTimeSize();
-		setWeather();
-		
-		setTimeout(function() {
-			window.history.go(0);
-		}, (1000 * 60 * 60 * 3));
 
+		initData();
 	}
 
+	function setFullScreen(){
+
+		var $wat = document.getElementById("wat");
+		if ( !document.fullscreenElement) {//가로
+			if ($wat.requestFullscreen) {
+				$wat.requestFullscreen();
+ 			} else if ($wat.webkitRequestFullscreen) { /* Safari */
+   				$wat.webkitRequestFullscreen();
+  			} else if ($wat.msRequestFullscreen) { /* IE11 */
+   				$wat.msRequestFullscreen();
+  			}
+		} else {
+
+			if (document.exitFullscreen) {
+      			document.exitFullscreen();
+    		}
+		}
+	}
 	function setTime() {
 		var now = new Date();
 
@@ -141,27 +154,6 @@
 
 
 		try {
-
-
-			/*loadDoc("./city.list.json", function(text) {
-				var data = JSON.parse(text);
-				console.log(data);
-			});*/
-			//https://www.data.go.kr/data/15073885/openapi.do
-			//https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043562
-			//var key = 'NlxvoEuT8%2F4pyJ8GnWYlv4%2Fa%2FWpqz5qkyJKjD5VlyG9itoUcYH6Ofx2tsYPmDM%2B%2Fc5dDv%2F6eKWWDUPmB5w0aqg%3D%3D'; /*Service Key*/
-			//var url = 'http://apis.data.go.kr/1360000/WthrChartInfoService/getSurfaceChart'; /*URL*/
-			//var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+key; /*Service Key*/
-			//queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
-			//queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
-			//queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('XML'); /**/
-			//queryParams += '&' + encodeURIComponent('code') + '=' + encodeURIComponent('24'); /**/
-			//queryParams += '&' + encodeURIComponent('time') + '=' + encodeURIComponent('20151013'); /**/
-			//console.log(url+queryParams);
-
-
-			////https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-			//https://openweathermap.org/api/one-call-api#how
 
 
 			var latitude = localStorage.getItem("1028lat");
